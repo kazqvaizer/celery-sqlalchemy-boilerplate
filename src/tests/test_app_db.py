@@ -1,4 +1,4 @@
-from core.db import Session, engine
+from app.db import Session, engine
 
 
 def test_engine_configured(env):

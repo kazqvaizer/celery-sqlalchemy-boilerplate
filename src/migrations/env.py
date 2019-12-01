@@ -10,7 +10,6 @@ sys.path.insert(0, os.path.realpath(os.path.join(os.path.dirname(__file__), ".."
 
 env.read_envfile()
 
-
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
 config = context.config
@@ -21,10 +20,9 @@ fileConfig(config.config_file_name)
 
 config.set_main_option("sqlalchemy.url", env("SQLALCHEMY_DATABASE_URI"))
 
-from core.db import Base  # noqa # isort:skip
-from example_app import models  # noqa # isort:skip
+from app.models import Base  # noqa # isort:skip
 
-target_metadata = Base.metadata
+target_metadata = [Base.metadata]
 
 # other values from the config, defined by the needs of env.py,
 # can be acquired:

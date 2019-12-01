@@ -8,10 +8,10 @@ You can easily add apps in this project with alchemy models and celery tasks lik
 ```
 my_project/
 └── src/
-    ├── example_app/
+    ├── example/
     │   ├── models.py
     │   └── tasks.py
-    └── another_example_app/
+    └── another_example/
        ├── models.py
        └── tasks.py
 
@@ -35,11 +35,11 @@ Extend `src/app/celery.py` with schudele for your tasks:
 
 ```
 from celery.schedules import crontab
-celery.autodiscover_tasks(lambda: ("example_app",))
+celery.autodiscover_tasks(lambda: ("example",))
  
 celery.conf.beat_schedule = {
     "example_task": {
-        "task": "example_app.tasks.example_task",
+        "task": "example.tasks.example_task",
         "schedule": crontab(hour="*", minute="0,30"),
     },
 }
