@@ -1,0 +1,12 @@
+version: '2'
+
+services:
+  postgres:
+    image: postgres:latest
+    ports:
+     - 5432:5432
+
+  redis:
+    image: redis:latest
+    ports:
+      - 6379:6379
