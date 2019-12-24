@@ -1,23 +1,17 @@
 # celery-sqlalchemy-boilerplate
-Boilerplate for services with DB and scheduled tasks in celery with migrations and tests.
+Boilerplate for services with Celery, SQLAlchemy, Docker, Alembic and Pytest.
 
-## Structure
 
-You can easily add apps in this project with alchemy models and celery tasks like this:
+## How to start
+Copy whole project and remove or rewrite all dummy code with `example` in it. There is an example migration file in `migrations/versions/` directory, so you may want to remove it also.
 
-```
-my_project/
-└── src/
-    ├── example/
-    │   ├── models.py
-    │   └── tasks.py
-    └── another_example/
-       ├── models.py
-       └── tasks.py
+To setup your environment locally for tests you need to define database and tasks broker urls. You can copy `.env.example` file to `.env` for this. It is ready to use with `docker-compose up` command.
 
-```
+In production you need to define `SQLALCHEMY_DATABASE_URI` and `CELERY_BACKEND` enviroment variables for your service.
 
-Create celery tasks inside `tasks.py` files as usual:
+## Code your project
+
+Create celery tasks inside `src/app/tasks.py` files as usual:
 
 ```
 from app.celery import celery
@@ -30,20 +24,50 @@ def example_task():
         my_celery_task_logic(session)
 ```
 
-
-Extend `src/app/celery.py` with schudele for your tasks: 
+Extend `src/app/celery.py` with schedule for your tasks: 
 
 ```
 from celery.schedules import crontab
-celery.autodiscover_tasks(lambda: ("example",))
- 
+
 celery.conf.beat_schedule = {
     "example_task": {
-        "task": "example.tasks.example_task",
-        "schedule": crontab(hour="*", minute="0,30"),
-    },
+        "task": "app.tasks.example_task", 
+        "schedule": crontab(minute="*")
+    }
 }
+
+```
+
+## Tests
+
+There are ready-to-use database fixtures which can greatly help with testing your code in near to production way. Don't forget to run your database, e.g. with `docker-compose up -d` command.
+
+
+```
+pytest
+```
+
+## Code style and linters
+
+```
+isort -rc . && black .
+```
+
+```
+flake8
 ```
 
 ## Migrations
 
+This boilerplate uses Alembic to run and create new migrations.
+
+To auto-generate migrations:
+
+```
+alembic revision --autogenerate -m "Some migration name"
+``` 
+
+To run migration (with database on):
+```
+alembic upgrade head
+```
