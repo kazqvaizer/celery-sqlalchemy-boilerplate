@@ -9,6 +9,20 @@ To setup your environment locally for tests you need to define database and task
 
 In production you need to define `SQLALCHEMY_DATABASE_URI` and `CELERY_BACKEND` enviroment variables for your service.
 
+
+## Dependencies
+
+Install pipenv if you don`t have one:
+```
+pip install pipenv
+```
+
+Then simply run 
+
+```
+pipenv install
+```
+
 ## Code your project
 
 Create celery tasks inside `src/app/tasks.py` files as usual:
@@ -42,6 +56,8 @@ celery.conf.beat_schedule = {
 
 There are ready-to-use database fixtures which can greatly help with testing your code in near to production way. Don't forget to run your database, e.g. with `docker-compose up -d` command.
 
+To run tests:
+
 
 ```
 pytest
@@ -49,12 +65,10 @@ pytest
 
 ## Code style and linters
 
-```
-isort -rc . && black .
-```
+Run all-in-one command:
 
 ```
-flake8
+isort -rc . && black . && flake8
 ```
 
 ## Migrations
