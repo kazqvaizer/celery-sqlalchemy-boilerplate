@@ -1,0 +1,40 @@
+version: '2'
+
+services:
+  postgres:
+    image: postgres:latest
+    ports:
+      - 5432:5432
+
+  redis:
+    image: redis:latest
+    ports:
+      - 6379:6379
+
+  celery:
+    image: celery-sqlalchemy-boilerplate
+    command: celery -A app worker
+    environment: &environment
+      - CELERY_BACKEND=redis://redis:6379/0
+      - SQLALCHEMY_DATABASE_URI=postgresql://postgres@postgres:5432/postgres
+    links:
+      - redis
+      - postgres
+
+  celery-beat:
+    image: celery-sqlalchemy-boilerplate
+    command: celery -A app beat
+    environment: *environment
+    links:
+      - redis
+      - postgres
+
+  flower:
+    image: celery-sqlalchemy-boilerplate
+    command: celery -A app flower
+    environment: *environment
+    ports:
+      - 8000:5555
+    links:
+      - redis
+      - postgres

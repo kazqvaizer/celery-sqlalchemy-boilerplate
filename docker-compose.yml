@@ -10,25 +10,3 @@ services:
     image: redis:latest
     ports:
       - 6379:6379
-
-  celery:
-    image: celery-sqlalchemy-boilerplate
-    build: .
-    command: celery -A app worker -B
-    environment: &environment
-      - CELERY_BACKEND=redis://redis:6379/0
-      - SQLALCHEMY_DATABASE_URI=postgresql://postgres@postgres:5432/postgres
-    links:
-      - redis
-      - postgres
-
-  flower:
-    image: celery-sqlalchemy-boilerplate
-    build: .
-    command: celery -A app flower
-    environment: *environment
-    ports:
-      - 5555:5555
-    links:
-      - redis
-      - postgres
