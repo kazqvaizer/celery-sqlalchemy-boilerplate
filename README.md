@@ -1,6 +1,7 @@
 # celery-sqlalchemy-boilerplate
-Boilerplate for services with Celery, SQLAlchemy, Docker, Alembic and Pytest.
+[![build](https://github.com/kazqvaizer/celery-sqlalchemy-boilerplate/actions/workflows/main.yml/badge.svg?branch=master)](https://github.com/kazqvaizer/celery-sqlalchemy-boilerplate/actions/workflows/main.yml)
 
+Boilerplate for services with Celery, SQLAlchemy, Docker, Alembic and Pytest.
 
 ## How to start
 Copy whole project and remove or rewrite all dummy code with `example` in it. There is an example migration file in `migrations/versions/` directory, so you may want to remove it also.
