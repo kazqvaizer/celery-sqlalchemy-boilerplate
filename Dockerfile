@@ -1,12 +1,14 @@
-FROM python:3.8-slim
+FROM python:3.10-slim
 
 ENV PIP_NO_CACHE_DIR false
+ENV DOCKER_PIPENV_VERSION 2021.11.23
 
-COPY Pipfile* /
+WORKDIR /src
 
-RUN pip install --no-cache-dir pipenv==2018.11.26 && \
+COPY Pipfile Pipfile.lock  /
+
+RUN pip install --upgrade pip && \
+    pip install --no-cache-dir pipenv==${DOCKER_PIPENV_VERSION} && \
     pipenv install --deploy --system --clear
 
 COPY ./src /src
-
-WORKDIR /src

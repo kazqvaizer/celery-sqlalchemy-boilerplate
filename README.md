@@ -60,7 +60,7 @@ To run tests:
 
 
 ```
-pytest
+cd src && pytest
 ```
 
 ## Code style and linters
@@ -68,7 +68,7 @@ pytest
 Run all-in-one command:
 
 ```
-isort -rc . && black . && flake8
+isort . && black . && flake8
 ```
 
 ## Migrations
@@ -83,5 +83,10 @@ alembic revision --autogenerate -m "Some migration name"
 
 To run migration (with database on):
 ```
-alembic upgrade head
+cd src && alembic upgrade head
+```
+
+To run migration in prod compose:
+```
+docker-compose -f docker-compose.prod.yml run celery alembic upgrade head
 ```

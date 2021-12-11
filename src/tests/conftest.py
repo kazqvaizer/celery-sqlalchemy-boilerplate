@@ -18,7 +18,7 @@ def env():
 @pytest.fixture(scope="session", autouse=True)
 def engine(env):
     db_url = make_url(env("SQLALCHEMY_DATABASE_URI"))
-    db_url.database = f"{db_url.database}_test"
+    db_url = db_url.set(database=f"{db_url.database}_test")
 
     engine = create_engine(db_url)
     if not database_exists(engine.url):

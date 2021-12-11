@@ -1,15 +1,21 @@
-version: '2'
+version: '3.8'
 
 services:
   postgres:
     image: postgres:latest
-    ports:
-      - 5432:5432
+    environment:
+      POSTGRES_HOST_AUTH_METHOD: trust
+    networks:
+      - stack
+    volumes:
+      - postgres:/var/lib/postgresql/data
 
   redis:
     image: redis:latest
-    ports:
-      - 6379:6379
+    networks:
+      - stack
+    volumes:
+      - redis:/data
 
   celery:
     image: celery-sqlalchemy-boilerplate
@@ -17,17 +23,15 @@ services:
     environment: &environment
       - CELERY_BACKEND=redis://redis:6379/0
       - SQLALCHEMY_DATABASE_URI=postgresql://postgres@postgres:5432/postgres
-    links:
-      - redis
-      - postgres
+    networks:
+      - stack
 
   celery-beat:
     image: celery-sqlalchemy-boilerplate
     command: celery -A app beat
     environment: *environment
-    links:
-      - redis
-      - postgres
+    networks:
+      - stack
 
   flower:
     image: celery-sqlalchemy-boilerplate
@@ -35,6 +39,15 @@ services:
     environment: *environment
     ports:
       - 8000:5555
-    links:
-      - redis
-      - postgres
+    networks:
+      - stack
+      - ingress
+
+networks:
+  stack:
+    internal: true
+  ingress:
+
+volumes:
+  postgres:
+  redis:
