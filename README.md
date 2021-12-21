@@ -2,23 +2,26 @@
 [![build](https://github.com/kazqvaizer/celery-sqlalchemy-boilerplate/actions/workflows/main.yml/badge.svg?branch=master)](https://github.com/kazqvaizer/celery-sqlalchemy-boilerplate/actions/workflows/main.yml)
 
 Boilerplate for services with Celery, SQLAlchemy, Docker, Alembic and Pytest.
+            
+## Why 
+
+Here is a stable way to run scheduled or triggered tasks in python using celery. This boilerplate will fit any integration purpose when you need to synchronize resources or databases. 
+
+Current project is pytest friendly. It is very easy to start writing tests for your code here. 
 
 ## How to start
 Copy whole project and remove or rewrite all dummy code with `example` in it. There is an example migration file in `migrations/versions/` directory, so you may want to remove it also.
 
-To setup your environment locally for tests you need to define database and tasks broker urls. You can copy `.env.example` file to `.env` for this. It is ready to use with `docker-compose up` command.
-
-In production you need to define `SQLALCHEMY_DATABASE_URI` and `CELERY_BACKEND` enviroment variables for your service.
-
+To set up your environment locally you need to define `SQLALCHEMY_DATABASE_URI` and `CELERY_BACKEND` parameters in `.env` file. Check `.env.example` as an example.
 
 ## Dependencies
 
-Install pipenv if you don`t have one:
+Install pipenv
 ```
 pip install pipenv
 ```
 
-Then simply run 
+Then run 
 
 ```
 pipenv install
